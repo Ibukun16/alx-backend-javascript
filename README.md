@@ -1,0 +1,1 @@
+This is my first specialisation project as an ALX software engineering student. This repository contains detailed practice tasks on the use of javascript programming language. Javascript is a very important and versatile programming language required of an aspiring full stack software developer. 
