@@ -1,0 +1,1 @@
+This project directory contains practical project exercise that test the understanding of ES_6 promise. This is an essential skill in javascript body of knowledge required of a full stack software engineer.
