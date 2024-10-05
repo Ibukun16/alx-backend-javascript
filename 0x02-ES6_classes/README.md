@@ -1,0 +1,1 @@
+This is my third project in ALX SE Specilisation. This project directory contains practice project tasks on ES6 classes, an aspect of javascript programming language. This body of knowledge is essential for an aspiring full stack software engineer. Come along as we solve the problems together.
