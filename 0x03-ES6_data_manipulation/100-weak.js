@@ -2,10 +2,10 @@ export const weakMap = new WeakMap();
 
 export function queryAPI(endpoint) {
   if (
-    typeof endpoint !== 'object' ||
-    endpoint === null ||
-    !endpoint.protocol ||
-    !endpoint.name
+    typeof endpoint !== 'object'
+    || endpoint === null
+    || !endpoint.protocol
+    || !endpoint.name
   ) {
     throw new Error('Invalid endpoint');
   }
