@@ -1,0 +1,1 @@
+This project directory contains practice project tasks that test the understanding of Typescript, a programming language very similar but an improvement on javascript. Typescript is very much useful for the development of interractive web app. This project is the fifth project in ALX Software Engineering Backend Specialisation project series
