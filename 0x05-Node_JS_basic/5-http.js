@@ -23,7 +23,7 @@ const countStudents = (fileName) =>
           const students = {};
           const fields = {};
           let length = 0;
-          let output = '';
+          let retort = '';
           const lines = data.toString('utf-8').trim().split('\n');
           for (let count = 0; count < lines.length; count += 1) {
             if (lines[count]) {
@@ -42,14 +42,14 @@ const countStudents = (fileName) =>
             }
           }
           const len = length - 1;
-          output += `Number of students: ${len}\n`;
+          retort += `Number of students: ${len}\n`;
           for (const [key, val] of Object.entries(fields)) {
             if (key !== 'field') {
-              output += `Number of students in ${key}: ${val}. `;
-              output += `List: ${students[key].join(', ')}\n`;
+              retort += `Number of students in ${key}: ${val}. `;
+              retort += `List: ${students[key].join(', ')}\n`;
             }
           }
-          resolve(output);
+          resolve(retort);
         }
       });
     }
