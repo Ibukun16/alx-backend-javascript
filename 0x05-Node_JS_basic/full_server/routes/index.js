@@ -1,3 +1,4 @@
+const express = require('express');
 const AppController = require('../controllers/AppController');
 const StudentsController = require('../controllers/StudentsController');
 
@@ -7,6 +8,7 @@ const StudentsController = require('../controllers/StudentsController');
  * @param {Express app} The Express application.
  * @author Ibukun Agunbiade <https://github.com/Ibukun16>
  */
+const app = express();
 
 const mapRoutes = (app) => {
   app.get('/', AppController.getHomepage);

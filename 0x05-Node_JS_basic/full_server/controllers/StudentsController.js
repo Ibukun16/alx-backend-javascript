@@ -2,21 +2,18 @@ const readDatabase = require('../utils');
 
 /**
  * List of supported valid majors
- */
-const VALID_MAJORS = ['CS', 'SWE'];
-
-/**
  * Contains the student-related route handlers
  * @author Ibukun Agunbiade <https://github.com/Ibukun16>
  */
 class StudentsController {
   static getAllStudents(request, response) {
-    const fileName = process.argv.length > 2 ? process.argv[2] : '';
+    const fileName = process.argv[2];
 
     readDatabase(fileName)
       .then((students) => {
-        const retort = ['This is the list of our students'];
-        const compareFuncs = (a, b) => {
+        const output = ['This is the list of our students'];
+
+        const sortFuncs = (a, b) => {
           if (a[0].toLowerCase() < b[0].toLowerCase()) {
             return -1;
           }
@@ -25,16 +22,16 @@ class StudentsController {
           }
           return 0;
         };
-        for (const [key, val] of Object.entries(students).sort(compareFuncs)) {
-          retort.push(
+        for (const [field, grp] of Object.entries(students).sort(sortFuncs)) {
+          output.push(
             [
-              `Number of students in ${key}: ${val.length}`,
+              `Number of students in ${field}: ${grp.length}`,
               'List:',
-              val.map((student) => student.firstName).join(', '),
+              grp.map((student) => student.firstname).join(', '),
             ].join(' '),
           );
         }
-        response.status(200).send(retort.join('\n'));
+        response.status(200).send(output.join('\n'));
       })
       .catch((error) => {
         response
@@ -44,24 +41,26 @@ class StudentsController {
   }
 
   static getAllStudentsByMajor(request, response) {
-    const fileName = process.argv.length > 2 ? process.argv[2] : '';
+    const fileName = process.argv[2];
     const { major } = request.params;
 
-    if (!VALID_MAJORS.includes(major)) {
+    if (!['CS', 'SWE'].includes(major)) {
       response.status(500).send('Major parameter must be CS or SWE');
       return;
     }
     readDatabase(fileName)
       .then((students) => {
-        let printData = '';
+        let result = '';
 
         if (Object.keys(students).includes(major)) {
-          const group = students[major];
-          printData = `List: ${group
-            .map((students) => students.firstname)
+          const grp = students[major];
+          result = `List: ${grp
+            .map((student) => student.firstname)
             .join(', ')}`;
         }
-        response.status(200).send(printData);
+        response
+          .status(200)
+          .send(result || 'No student found for the major given');
       })
       .catch((error) => {
         response
