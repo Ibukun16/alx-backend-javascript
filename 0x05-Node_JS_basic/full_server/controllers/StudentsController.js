@@ -14,10 +14,10 @@ class StudentsController {
     const fileName = process.argv.length > 2 ? process.argv[2] : '';
 
     readDatabase(fileName)
-      .then((data) => {
-        let retort = 'This is the list of our students';
+      .then((students) => {
+        const retort = ['This is the list of our students'];
         const compareFuncs = (a, b) => {
-          if (a[0].toLowerCase() > b[0].toLowerCase()) {
+          if (a[0].toLowerCase() < b[0].toLowerCase()) {
             return -1;
           }
           if (a[0].toLowerCase() > b[0].toLowerCase()) {
@@ -25,16 +25,21 @@ class StudentsController {
           }
           return 0;
         };
-        for (const field in Object.entries(data).sort(compareFuncs)) {
-          if (Object.hasOwnProperty.call(data, field)) {
-            const val = data[field];
-            retort += `\nNumber of students in ${field}: ${val.val}. List: ${val.students}`;
-          }
+        for (const [key, val] of Object.entries(students).sort(compareFuncs)) {
+          retort.push(
+            [
+              `Number of students in ${key}: ${val.length}`,
+              'List:',
+              val.map((student) => student.firstName).join(', '),
+            ].join(' '),
+          );
         }
-        response.send(retort);
+        response.status(200).send(retort.join('\n'));
       })
-      .catch((err) => {
-        response.send(err.message);
+      .catch((error) => {
+        response
+          .status(500)
+          .send(error instanceof Error ? error.message : error.toString());
       });
   }
 
@@ -47,20 +52,21 @@ class StudentsController {
       return;
     }
     readDatabase(fileName)
-      .then((data) => {
+      .then((students) => {
         let printData = '';
 
-        if (Object.keys(data).includes(major)) {
-          const group = data[major];
+        if (Object.keys(students).includes(major)) {
+          const group = students[major];
           printData = `List: ${group
             .map((students) => students.firstname)
             .join(', ')}`;
         }
         response.status(200).send(printData);
-        response.status(500).send('Major parameter must be CS or SWE');
       })
-      .catch((err) => {
-        response.send(err.message);
+      .catch((error) => {
+        response
+          .status(500)
+          .send(error instanceof Error ? error.message : error.toString());
       });
   }
 }
